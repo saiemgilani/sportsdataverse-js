@@ -166,6 +166,13 @@ export default {
         state = null,
         rankingsType = "Composite"
     }) {
+       const params = {
+            InstitutionGroup: group,
+            Page: page,
+            Position: position,
+            State: state
+        };
+
         let baseUrl;
         if (rankingsType === 'Composite') {
             baseUrl = `http://247sports.com/Season/${year}-Football/CompositeRecruitRankings`;
@@ -174,12 +181,7 @@ export default {
         } else {
             throw new Error("Invalid rankings type");
         }
-        const params = {
-            InstitutionGroup: group,
-            Page: page,
-            Position: position,
-            State: state
-        };
+        
         const res = await axios.get(baseUrl, {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'
@@ -187,6 +189,7 @@ export default {
             params
         });
 
+        
         let $ = cheerio.load(res.data);
 
         let players = [];
